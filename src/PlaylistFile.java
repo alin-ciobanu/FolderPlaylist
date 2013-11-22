@@ -1,14 +1,10 @@
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.StringTokenizer;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -19,10 +15,16 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class PlaylistFile extends JFrame implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	JFileChooser browse;
-	
+
 	public PlaylistFile () {
-		
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException
@@ -30,19 +32,19 @@ public class PlaylistFile extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		browse = new JFileChooser("D:");
 		browse.setAcceptAllFileFilterUsed(false);
 		browse.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		browse.addActionListener(this);
 		browse.setApproveButtonText("Create m3u playlist for this folder");
-		
+
 		this.add(browse);
 		this.pack();
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-	
+
 	public static void main(String[] args) {
 		new PlaylistFile();
 	}
@@ -54,9 +56,9 @@ public class PlaylistFile extends JFrame implements ActionListener {
 			File folder;
 			folder = browse.getSelectedFile();
 			String[] list;
-			
+
 			list = folder.list(new FilenameFilter() {
-				
+
 				@Override
 				public boolean accept(File arg0, String arg1) {
 					return (arg1.endsWith(".flac") || arg1.endsWith(".FLAC") || arg1.endsWith(".mp3")
@@ -74,7 +76,7 @@ public class PlaylistFile extends JFrame implements ActionListener {
 			}
 			for (int i=0; i<list.length; i++) {
 				try {
-					out.writeBytes(list[i] + '\n');
+					out.writeBytes(folder.getAbsolutePath() + "\\" + list[i] + '\n');
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(this, "An error occured. Please try again.");
 					System.exit(-1);
