@@ -69,7 +69,7 @@ public class PlaylistFile extends JFrame implements ActionListener {
 
 			RandomAccessFile out = null;
 			try {
-				out = new RandomAccessFile(folder.getAbsolutePath() + "\\playlist.m3u", "rw");
+				out = new RandomAccessFile(folder.getAbsolutePath() + "\\" + folder.getName() + ".m3u", "rw");
 			} catch (FileNotFoundException e1) {
 				JOptionPane.showMessageDialog(this, "An error occured. Please try again.");
 				System.exit(-1);
