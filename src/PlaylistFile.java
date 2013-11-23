@@ -33,7 +33,8 @@ public class PlaylistFile extends JFrame implements ActionListener {
 			e.printStackTrace();
 		}
 
-		browse = new JFileChooser("D:");
+		browse = new JFileChooser();
+		browse.setCurrentDirectory(new File("D:"));
 		browse.setAcceptAllFileFilterUsed(false);
 		browse.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		browse.addActionListener(this);
@@ -67,6 +68,20 @@ public class PlaylistFile extends JFrame implements ActionListener {
 				}
 			});
 
+			if (list.length == 0) {
+
+				String currentPath;
+				currentPath = browse.getCurrentDirectory().getAbsolutePath();
+				System.out.println(currentPath);
+				JOptionPane.showMessageDialog(this,
+						"Folder doesn't contain any audio files. Supported files are .mp3, .flac, .wav & .ape." +
+								"\n" +
+						"Please choose another folder.");
+				browse.setCurrentDirectory(new File(currentPath));
+				return;
+
+			}
+
 			RandomAccessFile out = null;
 			try {
 				out = new RandomAccessFile(folder.getAbsolutePath() + "\\" + folder.getName() + ".m3u", "rw");
@@ -74,6 +89,7 @@ public class PlaylistFile extends JFrame implements ActionListener {
 				JOptionPane.showMessageDialog(this, "An error occured. Please try again.");
 				System.exit(-1);
 			}
+
 			for (int i=0; i<list.length; i++) {
 				try {
 					out.writeBytes(folder.getAbsolutePath() + "\\" + list[i] + '\n');
